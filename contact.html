@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — UnnamedBoy07</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #ff2244;
+      --red-dim: #cc1a36;
+      --red-glow: rgba(255,34,68,0.15);
+      --orange: #ff6633;
+      --bg: #0a0606;
+      --bg2: #120c0c;
+      --bg3: #1a1010;
+      --text: #e6c8c8;
+      --text-dim: #6a4a4a;
+      --border: rgba(255,34,68,0.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(10,6,6,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--red);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px var(--red);
+    }
+
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 0.5rem; list-style: none; }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--red);
+      border-color: var(--border);
+      background: var(--red-glow);
+      text-shadow: 0 0 10px var(--red);
+    }
+
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 8rem 2rem 6rem;
+    }
+
+    .page-label { font-size: 0.65rem; letter-spacing: 4px; color: var(--red); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .page-label::before { content: '// '; }
+
+    .page-title { font-family: 'Orbitron', monospace; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; color: #fff; margin-bottom: 0.75rem; }
+    .page-sub { font-size: 0.82rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 3rem; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+
+    .contact-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      transition: all 0.25s;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      transition: height 0.3s;
+    }
+
+    .contact-card:hover { transform: translateY(-4px); }
+    .contact-card:hover::before { height: 100%; }
+
+    .card-discord { border-color: rgba(88,101,242,0.3); }
+    .card-discord::before { background: #5865f2; }
+    .card-discord:hover { border-color: #5865f2; background: rgba(88,101,242,0.05); }
+
+    .card-youtube { border-color: rgba(255,0,0,0.3); }
+    .card-youtube::before { background: #ff0000; }
+    .card-youtube:hover { border-color: #ff0000; background: rgba(255,0,0,0.05); }
+
+    .card-github { border-color: rgba(255,255,255,0.1); }
+    .card-github::before { background: #fff; }
+    .card-github:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.03); }
+
+    .card-email { border-color: var(--border); }
+    .card-email::before { background: var(--red); }
+    .card-email:hover { border-color: var(--red); background: var(--red-glow); }
+
+    .contact-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+
+    .contact-platform { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .card-discord .contact-platform { color: #7289da; }
+    .card-youtube .contact-platform { color: #ff4444; }
+    .card-github .contact-platform { color: #aaa; }
+    .card-email .contact-platform { color: var(--red); }
+
+    .contact-name { font-family: 'Orbitron', monospace; font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .contact-detail { font-size: 0.75rem; color: var(--text-dim); line-height: 1.6; }
+
+    .contact-arrow { position: absolute; bottom: 1.5rem; right: 1.5rem; font-size: 0.9rem; color: var(--text-dim); transition: all 0.2s; }
+    .contact-card:hover .contact-arrow { color: var(--red); transform: translate(3px, -3px); }
+
+    .info-box { background: var(--bg2); border: 1px solid var(--border); padding: 2rem; }
+
+    .info-box-title { font-family: 'Orbitron', monospace; font-size: 0.85rem; color: var(--red); margin-bottom: 1rem; font-weight: 700; }
+
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .info-list li { font-size: 0.8rem; color: var(--text-dim); padding-left: 1.2rem; position: relative; line-height: 1.5; }
+    .info-list li::before { content: '▸'; position: absolute; left: 0; color: var(--red); }
+
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.72rem; color: var(--text-dim); letter-spacing: 2px; }
+    footer a { color: var(--red); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 1rem; }
+      .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.65rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">UNNAMED<span>BOY07</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="links.html">Links & Codes</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrap">
+    <p class="page-label">Get in Touch</p>
+    <h1 class="page-title">Contact</h1>
+    <p class="page-sub">The best way to reach me is through Discord — I'm most active there. For business enquiries or collabs, use the email below.</p>
+
+    <div class="contact-grid">
+
+      <a href="https://discord.gg/rveAV9FzdM" target="_blank" class="contact-card card-discord">
+        <span class="contact-icon">💬</span>
+        <p class="contact-platform">⬡ Discord</p>
+        <p class="contact-name">Join My Server</p>
+        <p class="contact-detail">Best place to ask questions, get server help, and chat with the community. Response usually within a few hours.</p>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+      <a href="https://www.youtube.com/@unnamedboy07" target="_blank" class="contact-card card-youtube">
+        <span class="contact-icon">📺</span>
+        <p class="contact-platform">▶ YouTube</p>
+        <p class="contact-name">@unnamedboy07</p>
+        <p class="contact-detail">Leave a comment on any video — I try to respond to as many as I can, especially questions about the tutorial content.</p>
+        <span class="contact-arrow">↗</span>
+      </a>
+
+      <div class="contact-card card-github" style="cursor:default;">
+        <span class="contact-icon">⚙</span>
+        <p class="contact-platform">◈ GitHub</p>
+        <p class="contact-name">Coming Soon</p>
+        <p class="contact-detail">Scripts, config files, and resources from videos will be uploaded here. Stay tuned.</p>
+        <span class="contact-arrow" style="opacity:0.3">—</span>
+      </div>
+
+      <div class="contact-card card-email" style="cursor:default;">
+        <span class="contact-icon">✉</span>
+        <p class="contact-platform">@ Email</p>
+        <p class="contact-name">Business & Collabs</p>
+        <p class="contact-detail">For business enquiries, sponsorships, or collaboration requests — reach out on Discord DM with subject details first.</p>
+        <span class="contact-arrow" style="opacity:0.3">—</span>
+      </div>
+
+    </div>
+
+    <div class="info-box">
+      <p class="info-box-title">📋 Before You Contact</p>
+      <ul class="info-list">
+        <li>Check the <a href="links.html" style="color:var(--red)">Links & Codes</a> page — your question might already be answered there.</li>
+        <li>For server help, please share your error logs and OS version — it makes debugging much faster.</li>
+        <li>For Pterodactyl issues, mention your panel version and Wings version.</li>
+        <li>I don't do free server setup work, but I'm happy to point you in the right direction via Discord.</li>
+        <li>Sponsorship or collab? Message on Discord with details — I'll respond within 48 hours.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 <a href="index.html">UnnamedBoy07</a> &nbsp;|&nbsp;
+      <a href="https://www.youtube.com/@unnamedboy07" target="_blank">YouTube</a> &nbsp;·&nbsp;
+      <a href="https://discord.gg/rveAV9FzdM" target="_blank">Discord</a>
+    </p>
+  </footer>
+
+</body>
+</html>

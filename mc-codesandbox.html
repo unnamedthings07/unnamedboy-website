@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MC-CODESANDBOX — Minecraft Guide | UnnamedBoy07</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #ff2244;
+      --red-dim: #cc1a36;
+      --red-glow: rgba(255,34,68,0.15);
+      --orange: #ff6633;
+      --bg: #0a0606;
+      --bg2: #120c0c;
+      --bg3: #1a1010;
+      --text: #e6c8c8;
+      --text-dim: #6a4a4a;
+      --border: rgba(255,34,68,0.2);
+      --yellow: #ffd700;
+      --blue: #4fc3f7;
+      --green: #69f0ae;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body { background: var(--bg); color: var(--text); font-family: 'Share Tech Mono', monospace; min-height: 100vh; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px); pointer-events: none; z-index: 9999; }
+    body::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; opacity: 0.25; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,6,6,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.1rem; color: var(--red); text-decoration: none; letter-spacing: 2px; text-shadow: 0 0 20px var(--red); }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 0.5rem; list-style: none; }
+    .nav-links a { color: var(--text-dim); text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; padding: 0.5rem 1rem; border: 1px solid transparent; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--red); border-color: var(--border); background: var(--red-glow); text-shadow: 0 0 10px var(--red); }
+
+    .article-wrap { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 7rem 2rem 6rem; }
+
+    .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 2.5rem; }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--red); }
+    .breadcrumb .sep { color: var(--border); }
+    .breadcrumb .current { color: var(--red); }
+
+    .article-header { border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2.5rem; }
+    .article-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .badge { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid; }
+    .badge-id  { color: var(--red);    border-color: var(--border);               background: var(--red-glow); font-family: 'Orbitron', monospace; font-weight: 700; }
+    .badge-cat { color: var(--green);  border-color: rgba(105,240,174,0.3); }
+    .badge-method { color: var(--blue); border-color: rgba(79,195,247,0.3); }
+
+    .article-title { font-family: 'Orbitron', monospace; font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 1rem; }
+    .article-summary { font-size: 0.82rem; color: var(--text-dim); line-height: 1.8; max-width: 640px; margin-bottom: 1.5rem; }
+
+    .article-toc { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .toc-item { font-size: 0.65rem; letter-spacing: 1px; padding: 0.3rem 0.8rem; background: rgba(255,34,68,0.05); border: 1px solid rgba(255,34,68,0.15); color: var(--text-dim); text-decoration: none; transition: all 0.2s; }
+    .toc-item:hover { color: var(--red); border-color: var(--red); background: var(--red-glow); }
+
+    .section-block { margin-bottom: 3rem; }
+    .section-heading { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+    .section-num  { font-family: 'Orbitron', monospace; font-size: 0.65rem; font-weight: 900; color: var(--bg); background: var(--red); padding: 0.25rem 0.5rem; flex-shrink: 0; }
+    .section-name { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+    .section-tag  { margin-left: auto; font-size: 0.6rem; letter-spacing: 2px; color: var(--text-dim); border: 1px solid var(--border); padding: 0.2rem 0.5rem; text-transform: uppercase; white-space: nowrap; }
+
+    .step { margin-bottom: 1.5rem; }
+    .step-label { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .step-label::before { content: '▸'; color: var(--red); }
+
+    .code-block { background: #050202; border: 1px solid var(--border); overflow: hidden; margin-bottom: 0.5rem; }
+    .code-header { background: var(--bg3); padding: 0.55rem 1rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+    .code-lang { font-size: 0.6rem; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+    .copy-btn { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 0.2rem 0.6rem; cursor: pointer; transition: all 0.2s; }
+    .copy-btn:hover { color: var(--red); border-color: var(--red); }
+    .copy-btn.copied { color: #28c840; border-color: #28c840; }
+    .code-body { padding: 1.1rem 1.2rem; font-size: 0.8rem; line-height: 1.8; color: var(--text); overflow-x: auto; white-space: pre; }
+
+    /* RAM SELECTOR */
+    .ram-selector { margin-bottom: 1.5rem; }
+
+    .ram-label { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+    .ram-label::before { content: '▸'; color: var(--red); }
+
+    .ram-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+
+    .ram-btn {
+      padding: 0.45rem 1rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .ram-btn:hover { color: var(--green); border-color: rgba(105,240,174,0.4); background: rgba(105,240,174,0.05); }
+
+    .ram-btn.active {
+      color: var(--bg);
+      background: var(--green);
+      border-color: var(--green);
+      box-shadow: 0 0 14px rgba(105,240,174,0.25);
+    }
+
+    .ram-cmd-wrap { position: relative; }
+
+    /* DOWNLOAD BUTTON */
+    .download-block {
+      background: var(--bg2);
+      border: 1px solid rgba(105,240,174,0.25);
+      padding: 1.5rem 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .download-info {}
+    .download-title { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+    .download-meta  { font-size: 0.72rem; color: var(--text-dim); line-height: 1.5; }
+    .download-meta span { color: var(--green); }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--green);
+      color: #060a08;
+      text-decoration: none;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      transition: all 0.25s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .download-btn:hover { background: #4cceac; box-shadow: 0 0 24px rgba(105,240,174,0.3); }
+
+    .alert { border: 1px solid; padding: 1rem 1.2rem; margin-bottom: 1.5rem; font-size: 0.78rem; line-height: 1.7; display: flex; gap: 0.75rem; align-items: flex-start; }
+    .alert-warn { border-color: rgba(255,215,0,0.3);  background: rgba(255,215,0,0.05); }
+    .alert-info { border-color: rgba(79,195,247,0.3); background: rgba(79,195,247,0.05); }
+    .alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .alert-text { color: var(--text-dim); }
+    .alert-text strong { color: var(--yellow); }
+    .alert-info .alert-text strong { color: var(--blue); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+    .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-dim); text-decoration: none; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; padding: 0.6rem 1.2rem; border: 1px solid var(--border); transition: all 0.2s; margin-bottom: 3rem; }
+    .back-link:hover { color: var(--red); border-color: var(--red); background: var(--red-glow); }
+
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.72rem; color: var(--text-dim); letter-spacing: 2px; }
+    footer a { color: var(--red); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.65rem; }
+      .code-body { font-size: 0.72rem; }
+      .section-tag { display: none; }
+      .download-block { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">UNNAMED<span>BOY07</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="links.html">Links & Codes</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="article-wrap">
+
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="links.html">Links & Codes</a>
+      <span class="sep">/</span>
+      <span class="current">MC-CODESANDBOX</span>
+    </div>
+
+    <header class="article-header">
+      <div class="article-badges">
+        <span class="badge badge-id">MC-CODESANDBOX</span>
+        <span class="badge badge-cat">⛏ Minecraft</span>
+        <span class="badge badge-method">◈ CodeSandbox</span>
+      </div>
+      <h1 class="article-title">Run a Minecraft Server<br>on CodeSandbox (Free)</h1>
+      <p class="article-summary">
+        Host a Minecraft server for free using CodeSandbox. Download the custom server JAR, set up the directory, launch with your chosen RAM allocation, and keep it online 24/7 using the included script.
+      </p>
+      <div class="article-toc">
+        <a href="#jar" class="toc-item">01 · Download JAR</a>
+        <a href="#setup" class="toc-item">02 · Server Setup</a>
+        <a href="#start" class="toc-item">03 · Start Server</a>
+        <a href="#247" class="toc-item">04 · 24/7 Online</a>
+      </div>
+    </header>
+
+    <!-- ===== SECTION 1: JAR DOWNLOAD ===== -->
+    <div class="section-block" id="jar">
+      <div class="section-heading">
+        <span class="section-num">01</span>
+        <span class="section-name">Download the Server JAR</span>
+        <span class="section-tag">Required File</span>
+      </div>
+
+      <div class="step">
+        <p class="step-label">Download server.jar</p>
+        <div class="alert alert-warn">
+          <span class="alert-icon">⚠</span>
+          <span class="alert-text"><strong>You need this JAR file</strong> to run the server. Download it below and upload it into your CodeSandbox devbox as shown in the video.</span>
+        </div>
+
+        <div class="download-block">
+          <div class="download-info">
+            <p class="download-title">server.jar</p>
+            <p class="download-meta">Custom Minecraft server JAR &nbsp;·&nbsp; <span>Used in the video</span></p>
+          </div>
+          <!-- REPLACE THE HREF BELOW WITH YOUR ACTUAL GITHUB PAGES FILE URL -->
+          <!-- Example: https://yourusername.github.io/yourrepo/files/server.jar -->
+          <a href="files/server.jar" download class="download-btn">
+            ↓ &nbsp;Download JAR
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ===== SECTION 2: SETUP ===== -->
+    <div class="section-block" id="setup">
+      <div class="section-heading">
+        <span class="section-num">02</span>
+        <span class="section-name">Server Directory Setup</span>
+        <span class="section-tag">CodeSandbox Terminal</span>
+      </div>
+
+      <div class="step">
+        <p class="step-label">Create the server folder</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+          </div>
+          <div class="code-body">mkdir mc</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <p class="step-label">Navigate into the folder</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+          </div>
+          <div class="code-body">cd mc</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ</span>
+        <span class="alert-text"><strong>Move your server.jar</strong> into the <code style="color:var(--blue);font-size:0.85em;">mc/</code> folder before running the start command. You can drag and drop it in the CodeSandbox file explorer.</span>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ===== SECTION 3: START SERVER ===== -->
+    <div class="section-block" id="start">
+      <div class="section-heading">
+        <span class="section-num">03</span>
+        <span class="section-name">Start the Server</span>
+        <span class="section-tag">Pick Your RAM</span>
+      </div>
+
+      <div class="ram-selector">
+        <p class="ram-label">Select RAM allocation — then copy the command</p>
+        <div class="ram-tabs">
+          <button class="ram-btn active" onclick="setRam(this, '2048')">2 GB</button>
+          <button class="ram-btn"        onclick="setRam(this, '4096')">4 GB</button>
+          <button class="ram-btn"        onclick="setRam(this, '6144')">6 GB</button>
+          <button class="ram-btn"        onclick="setRam(this, '8196')">8 GB</button>
+        </div>
+        <div class="ram-cmd-wrap">
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang" id="ramLabel">bash — 2 GB RAM</span>
+              <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+            </div>
+            <div class="code-body" id="ramCmd">java -Xmx2048M -Xms2048M -jar server.jar nogui</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warn">
+        <span class="alert-icon">⚠</span>
+        <span class="alert-text"><strong>Don't allocate more RAM than your devbox has available.</strong> CodeSandbox free tier typically provides 2–4 GB. Going higher may cause the container to crash.</span>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ===== SECTION 4: 24/7 ===== -->
+    <div class="section-block" id="247">
+      <div class="section-heading">
+        <span class="section-num">04</span>
+        <span class="section-name">Keep the Server Online 24/7</span>
+        <span class="section-tag">Python Script</span>
+      </div>
+
+      <div class="step">
+        <p class="step-label">Run the 24/7 uptime script</p>
+        <div class="alert alert-info">
+          <span class="alert-icon">ℹ</span>
+          <span class="alert-text"><strong>Run this after your server starts</strong> to keep the CodeSandbox devbox awake and the server online. Follow the video for the full setup.</span>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+          </div>
+          <div class="code-body">python3  <(curl -s https://raw.githubusercontent.com/unnamed-boy07/pterodactyl/refs/heads/main/24-7)</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <a href="links.html" class="back-link">← Back to Links & Codes</a>
+
+  </div>
+
+  <footer>
+    <p>© 2025 <a href="index.html">UnnamedBoy07</a> &nbsp;|&nbsp;
+      <a href="https://www.youtube.com/@unnamedboy07" target="_blank">YouTube</a> &nbsp;·&nbsp;
+      <a href="https://discord.gg/rveAV9FzdM" target="_blank">Discord</a>
+    </p>
+  </footer>
+
+  <script>
+    const ramData = {
+      '2048': { label: 'bash — 2 GB RAM', cmd: 'java -Xmx2048M -Xms2048M -jar server.jar nogui' },
+      '4096': { label: 'bash — 4 GB RAM', cmd: 'java -Xmx4096M -Xms4096M -jar server.jar nogui' },
+      '6144': { label: 'bash — 6 GB RAM', cmd: 'java -Xmx6144M -Xms6144M -jar server.jar nogui' },
+      '8196': { label: 'bash — 8 GB RAM', cmd: 'java -Xmx8196M -Xms8196M -jar server.jar nogui' },
+    };
+
+    function setRam(btn, size) {
+      document.querySelectorAll('.ram-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('ramLabel').textContent = ramData[size].label;
+      document.getElementById('ramCmd').textContent   = ramData[size].cmd;
+    }
+
+    function copyCode(btn) {
+      const body = btn.closest('.code-block').querySelector('.code-body');
+      const tmp = document.createElement('textarea');
+      tmp.innerHTML = body.innerHTML
+        .replace(/<[^>]+>/g, '')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&');
+      const text = tmp.value;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'COPIED!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
